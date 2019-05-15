@@ -8,9 +8,6 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import 'swiper/dist/css/swiper.min.css'
 
-// axios.defaults.headers.post["Content-type"]="application/json";
-// Vue.prototype.$axios=axios;
-
 
 import 'lib-flexible'
 Vue.config.productionTip = false

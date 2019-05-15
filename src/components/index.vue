@@ -18,39 +18,26 @@
         <div class="banner">
           <div class="swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" >
-                <!-- <img :src="banner"> -->
-                  <img src="../assets/index/img_01.png">
+              <div class="swiper-slide" v-for="(item,index) in arr" :key="index">
+               
+                  <img :src="item.imgUrl">
               </div>
-              <div class="swiper-slide" >
-                <!-- <img :src="banner"> -->
+              <!-- <div class="swiper-slide" >
+               
                   <img src="../assets/index/img_02.png">
               </div>
               <div class="swiper-slide" >
-                <!-- <img :src="banner"> -->
+               
                   <img src="../assets/index/img_03.png">
               </div>
               <div class="swiper-slide" >
-                <!-- <img :src="banner"> -->
+              
                   <img src="../assets/index/img_04.png">
-              </div>
+              </div> -->
             </div>
             <div class="swiper-pagination swiper-pagination-bullets"></div>
           </div>
-          <!-- <mt-swipe @change="handleChange">
-            <mt-swipe-item>
-              <img src="../assets/index/img_01.png">
-            </mt-swipe-item>
-            <mt-swipe-item>
-              <img src="../assets/index/img_02.png">
-            </mt-swipe-item>
-            <mt-swipe-item>
-              <img src="../assets/index/img_03.png">
-            </mt-swipe-item>
-            <mt-swipe-item>
-              <img src="../assets/index/img_04.png">
-            </mt-swipe-item>
-          </mt-swipe> -->
+         
         </div>
         <div class="display_img"></div>
       </div>
@@ -61,23 +48,49 @@
 
 <script>
 import Swiper from "swiper";
-import axios from "axios";
+import api from "@/api/kind";
 export default {
   data() {
     return {
       userName: "用户",
-      dayTime: "早上好"
+      dayTime: "早上好",
+      arr:null,
     };
   },
-  methods: {},
+  methods: {
+      getDateTime(){
+      var  date = new Date();
+      var $Datetime=date.getHours()
+        if($Datetime >= 0 && $Datetime < 7){
+            this.dayTime="早上好"
+        }else if($Datetime >= 7 && $Datetime < 11){
+            this.dayTime="上午好"
+        }else if($Datetime >= 11 && $Datetime < 14){
+            this.dayTime="中午好" 
+        }else if($Datetime >= 14 && $Datetime < 18){
+             this.dayTime="下午好"
+        }else if($Datetime >= 18 && $Datetime <0){
+              this.dayTime="晚上好"
+        }
+        
+    }
+  },
   mounted() {
-    axios.post("/api/index", function(data) {
-      console.log(data);
-      var arr = [];
-      if (data.code == 1) {
-        arr = data.data.banners;
+    var _this=this;
+    //获取用户名
+   var username= window.localStorage.getItem("username")
+   this.userName=username
+    //当天时间
+   this.getDateTime()
+   //请求轮播数据
+    api.getIndex().then(function(res){
+       console.log(res);
+      
+      if (res.data.code == 1) {
+        console.log(res.data.data.banners)
+        _this.arr = res.data.data.banners;
       } else {
-        alert(data.msg_cn);
+        alert(res.data.msg_cn);
       }
     })
      var abcSwiper = new Swiper(".swiper-container", {
@@ -88,6 +101,7 @@ export default {
         slidesPerView: 'auto',      //设置为true时禁止切换
         spaceBetween:18,
         loopAdditionalSlides : 3,
+        height: 300,
         pagination : { el:'.swiper-pagination'}
       
     });
@@ -180,7 +194,7 @@ export default {
 margin-top: 0.2rem;
 width:100%;
 
-height: 2.72rem;
+height:390px;
 
 overflow: visible !important;
 
@@ -190,25 +204,25 @@ position: relative;
 
 .swiper-container .swiper-wrapper .swiper-slide {
 
-width: 610px;
+width:80%;
  border-radius: 0.12rem;
 
 }
 
 .swiper-container .swiper-wrapper .swiper-slide img {
 width: 100%;
-height: 2.82rem;
+height: 400px;
 border-radius: 0.12rem;
 
 }
 
 .swiper-container .swiper-wrapper .swiper-slide-prev {
 margin-top: 0.18rem;
-height: 2.5rem !important;
+height: 3.5rem !important;
 
 }
 
-.swiper-container .swiper-wrapper .swiper-slide-prev img { height: 2.4rem !important;
+.swiper-container .swiper-wrapper .swiper-slide-prev img { height: 360px !important;
 
 }
 
@@ -219,7 +233,7 @@ height: 2.5rem !important;
 }
 
 .swiper-container .swiper-wrapper .swiper-slide-next img {
-height: 2.4rem !important;
+height: 360px !important;
 
 }
 

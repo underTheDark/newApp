@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import axios from "axios"
+ import api  from "@/api/kind.js"
 export default {
     data(){
         return {
@@ -45,38 +45,33 @@ export default {
     },
     methods:{
             getAuthCode(){
-              
-            
-               axios.post("http://39.106.137.5:11700/sendRegisterSMSCode",{
-                    phone:this.$refs.phone.value,
-                   
-                }).then(function(data){
-                   // console.log(data)
-                    if(data.code==1){
-                        alert(data.msg_cn)
+                 api.getCode({phone:this.$refs.phone.value,}).then(function(data){
+                     if(data.code==1){
+                        alert(data.data.msg_cn)
                       
                     }else{
-                        alert(data.msg_cn)
+                        alert(data.data.msg_cn)
                     }
-                })
+                 })
             },
  
          reg(){
             if(this.state) {
-             
-               axios.post("http://39.106.137.5:11700/user/register",{
+                var params={ 
                     phone:this.$refs.phone.value,
                     password:this.$refs.psw.value,
                     SMSCode:this.$refs.SMSCode.value,
-                    referee:this.$refs.referee.value
-                }).then(function(res){
-                    if (1 == res.code) {
-                    alert("注册成功");
-                    window.location.href = "/index.html"
+                    referee:this.$refs.referee.value}
+
+                api.reg(params).then(function(data){
+                     if (1 == res.code) {
+                     alert("注册成功");
+                     this.$router.push({path:"/login"})
                 } else {
                     alert(res.msg_cn);
                 }
-                })
+                 })
+             
             }else{
                 alert("请查看并同意协议")
             }

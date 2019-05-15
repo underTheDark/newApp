@@ -14,8 +14,9 @@ module.exports = {
       '/api': {
         target: 'http://39.106.137.5:11700',
         changeOrigin: true,
+        emulateJSON : true,
         pathRewrite: {
-          '^/api':'/'
+          '^/api':''
         }
       },
       secure:false
