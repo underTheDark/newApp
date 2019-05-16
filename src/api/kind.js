@@ -43,11 +43,11 @@ function getIndex (data){
     })
 }
 
-//获取分类查询页商品
-function searchGoods(data){
+//获取秒杀列表商品
+function secKillList(data){
     return request({
         method:'post',
-        url:'/Api?s=/api/Index/getGoodsListByCategory',
+        url:'/api/comSeckill/localList',
         data
     })
 }
@@ -81,5 +81,6 @@ export default{
     login,
     reg,
     getIndex,
-    getCode
+    getCode,
+    secKillList
 }

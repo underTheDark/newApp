@@ -18,30 +18,92 @@
         <div class="banner">
           <div class="swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(item,index) in arr" :key="index">
+              <!-- 第一种 -->
+              <!-- <div class="swiper-slide" v-for="(item,index) in arr" :key="index">
                
                   <img :src="item.imgUrl">
+              </div>-->
+              <!-- 第二种 -->
+              <div class="swiper-slide">
+                <img src="../assets/index/img_01.png">
               </div>
+              <div class="swiper-slide">
+                <img src="../assets/index/img_02.png">
+              </div>
+              <div class="swiper-slide">
+                <img src="../assets/index/img_03.png">
+              </div>
+              <div class="swiper-slide">
+                <img src="../assets/index/img_04.png">
+              </div>
+
+              <!-- 第三种 -->
               <!-- <div class="swiper-slide" >
                
-                  <img src="../assets/index/img_02.png">
+                  <img :src="arr[0].imgUrl">
               </div>
               <div class="swiper-slide" >
                
-                  <img src="../assets/index/img_03.png">
+                  <img :src="arr[1].imgUrl">
               </div>
               <div class="swiper-slide" >
               
-                  <img src="../assets/index/img_04.png">
-              </div> -->
+                  <img :src="arr[2].imgUrl">
+              </div>
+              <div class="swiper-slide" >
+              
+                  <img :src="arr[3].imgUrl">
+              </div>-->
             </div>
             <div class="swiper-pagination swiper-pagination-bullets"></div>
           </div>
-         
         </div>
-        <div class="display_img"></div>
+        <div class="display_img">
+          <img src="../assets/index/img_05.png">
+        </div>
+        <div class="background_line"></div>
       </div>
-      <div class="part_bottom"></div>
+      <!--秒杀界面 -->
+      <div class="part_bottom">
+        <!-- <mt-navbar v-model="selected" style="color:black">
+          <mt-tab-item  id="1">
+               <div>08:00</div>
+               <div></div>
+          </mt-tab-item>
+          <mt-tab-item id="2">
+            <div>12:00</div>
+             <div></div>
+          </mt-tab-item>
+          <mt-tab-item id="3">
+             <div>20:00</div>
+             <div></div>
+          </mt-tab-item>
+            <mt-tab-item id="4">
+            <div>24:00</div>
+             <div></div>
+          </mt-tab-item>
+        </mt-navbar>
+       
+        <mt-tab-container v-model="selected">
+          <mt-tab-container-item id="1" >
+          
+             <div>08:00</div>
+             <div></div>
+          </mt-tab-container-item>
+          <mt-tab-container-item id="2">
+           
+          </mt-tab-container-item>
+          <mt-tab-container-item id="3">
+          
+          </mt-tab-container-item>
+        </mt-tab-container>-->
+        <ul class="secKill_header">
+          <li v-for="(item,index) in dateArr" :key="index" @click="changeSec(item)">
+            <p>{{item<9 ?"0"+item+":00":item+":00"}}</p>
+            <span>{{timestatus}}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -54,66 +116,138 @@ export default {
     return {
       userName: "用户",
       dayTime: "早上好",
-      arr:null,
+      arr: null,
+      selected:2,
+      dateArr:null,
+      dateList:null,
+      timestatus:""
     };
   },
   methods: {
-      getDateTime(){
-      var  date = new Date();
-      var $Datetime=date.getHours()
-        if($Datetime >= 0 && $Datetime < 7){
-            this.dayTime="早上好"
-        }else if($Datetime >= 7 && $Datetime < 11){
-            this.dayTime="上午好"
-        }else if($Datetime >= 11 && $Datetime < 14){
-            this.dayTime="中午好" 
-        }else if($Datetime >= 14 && $Datetime < 18){
-             this.dayTime="下午好"
-        }else if($Datetime >= 18 && $Datetime <0){
-              this.dayTime="晚上好"
-        }
-        
+     myTime(date){
+     var arr=date.split("T");
+     var d=arr[0];
+   var darr = d.split('-');
+
+   var t=arr[1];
+   var tarr = t.split('.000');
+   var marr = tarr[0].split(':');
+
+   var dd = parseInt(darr[0])+"/"+parseInt(darr[1])+"/"+parseInt(darr[2])+" "+parseInt(marr[0])+":"+parseInt(marr[1])+":"+parseInt(marr[2]);
+  return dd;
+},
+
+    //秒杀状态
+    changeSec(target){
+       
+          
+       
+    },
+    //时间段
+    getDateTime() {
+      var date = new Date();
+      var $Datetime = date.getHours();
+      if ($Datetime >= 0 && $Datetime < 7) {
+        this.dayTime = "早上好";
+      } else if ($Datetime >= 7 && $Datetime < 11) {
+        this.dayTime = "上午好";
+      } else if ($Datetime >= 11 && $Datetime < 14) {
+        this.dayTime = "中午好";
+      } else if ($Datetime >= 14 && $Datetime < 18) {
+        this.dayTime = "下午好";
+      } else if ($Datetime >= 18 && $Datetime < 0) {
+        this.dayTime = "晚上好";
+      }
     }
   },
   mounted() {
-    var _this=this;
+
+    var _this = this;
+    
     //获取用户名
-   var username= window.localStorage.getItem("username")
-   this.userName=username
-    //当天时间
-   this.getDateTime()
-   //请求轮播数据
-    api.getIndex().then(function(res){
-       console.log(res);
-      
+    var username = window.localStorage.getItem("username");
+    this.userName = username;
+    //当天时间段
+    this.getDateTime();
+    //请求轮播数据
+    api.getIndex().then(function(res) {
+     // console.log(res);
+
       if (res.data.code == 1) {
-        console.log(res.data.data.banners)
+      
         _this.arr = res.data.data.banners;
       } else {
         alert(res.data.msg_cn);
       }
-    })
-     var abcSwiper = new Swiper(".swiper-container", {
-        direction : 'horizontal',   //设置slider容器能够同时显示的slides数量
-        centeredSlides: true,    //设定为true时，活动块会居中，而不是默认状态下的居左。
-        loop: true,
-        autoplay:true,
-        slidesPerView: 'auto',      //设置为true时禁止切换
-        spaceBetween:18,
-        loopAdditionalSlides : 3,
-        height: 300,
-        pagination : { el:'.swiper-pagination'}
-      
     });
-  },
+    //请求秒杀
+     api.secKillList().then(function(res) {
+      console.log(res);
 
+      if (res.data.code == 1) {
+       _this.dateList=res.data.data.comList
+        _this.dateArr = res.data.data.array;
+      } else {
+        alert(res.data.data.msg_cn);
+      }
+    }).then(function(){
+       //秒杀状态
+     
+        for(var obj in _this.dateList){
+    
+            
+           let timeList=_this.dateList[obj]
+         
+          if(timeList){
+          if(timeList.length>0){
+             var startTime= timeList[0].start_time;
+             var endTime=timeList[0].end_time;
+          
+             var nowTime= new Date().getTime()
+                 startTime= new Date(startTime).getTime();
+                 endTime=new Date(endTime).getTime();
+                console.log(nowTime,startTime,endTime)
+                 if(startTime>nowTime){
+                   console.log(1)
+                    _this.timestatus="1"
+                 }else if(startTime<nowTime&&endTime>nowTime){
+                   console.log(2)
+                    _this.timestatus="2"
+                 }else if(endTime<nowTime){
+                 
+                   _this.timestatus="3"
+                 }
+          }
+          }
+          
+         }
+    });
+
+    var abcSwiper = new Swiper(".swiper-container", {
+      direction: "horizontal", //设置slider容器能够同时显示的slides数量
+      centeredSlides: true, //设定为true时，活动块会居中，而不是默认状态下的居左。
+      loop: true,
+      autoplay: true,
+      slidesPerView: "auto", //设置为true时禁止切换
+      spaceBetween: 18,
+      loopAdditionalSlides: 0,
+      height: 300,
+      pagination: { el: ".swiper-pagination" }
+    });
+   
+      
+  }
 };
 </script>
 
 <style  scoped>
+li {
+  list-style: none;
+}
 #index {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 #index .searchArea {
   position: fixed;
@@ -186,65 +320,82 @@ export default {
 /* 轮播 */
 .banner {
   margin-top: 75px;
-  
 }
 
-
 .swiper-container {
-margin-top: 0.2rem;
-width:100%;
+  margin-top: 0.2rem;
+  width: 100%;
 
-height:390px;
+  height: 390px;
 
-overflow: visible !important;
+  overflow: visible !important;
 
-position: relative;
-
+  position: relative;
 }
 
 .swiper-container .swiper-wrapper .swiper-slide {
-
-width:80%;
- border-radius: 0.12rem;
-
+  width: 80%;
+  border-radius: 0.12rem;
 }
 
 .swiper-container .swiper-wrapper .swiper-slide img {
-width: 100%;
-height: 400px;
-border-radius: 0.12rem;
-
+  width: 100%;
+  height: 400px;
+  border-radius: 0.12rem;
 }
 
 .swiper-container .swiper-wrapper .swiper-slide-prev {
-margin-top: 0.18rem;
-height: 3.5rem !important;
-
+  margin-top: 0.18rem;
+  height: 3.5rem !important;
 }
 
-.swiper-container .swiper-wrapper .swiper-slide-prev img { height: 360px !important;
-
+.swiper-container .swiper-wrapper .swiper-slide-prev img {
+  height: 360px !important;
 }
 
 .swiper-container .swiper-wrapper .swiper-slide-next {
-margin-top: 0.18rem;
-height: 2.5rem !important;
-
+  margin-top: 0.18rem;
+  height: 2.5rem !important;
 }
 
 .swiper-container .swiper-wrapper .swiper-slide-next img {
-height: 360px !important;
-
+  height: 360px !important;
 }
 
 .swiper-container .swiper-wrapper .swiper-slide-active {
-width: 605px;
-
+  width: 605px;
 }
 
 .swiper-pagination {
-bottom: 0.1rem !important;
-
+  bottom: 0.1rem !important;
 }
 
+.display_img {
+  margin: 60px auto 0;
+}
+.display_img img {
+  width: 689px;
+  height: 171px;
+}
+.background_line {
+  width: 100%;
+  height: 11px;
+  background-color: #f1f1f1;
+}
+
+.mint-navbar .mint-tab-item.is-selected {
+  border-bottom: 0.04rem solid red;
+
+  color: red;
+}
+/* 秒杀界面 */
+.secKill_header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.secKill_header li {
+  width: 25%;
+  text-align: center;
+}
 </style>

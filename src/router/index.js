@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Login from '@/components/login'
 import Reg from '@/components/register'
 import Index from '@/components/index'
+import Main from '@/components/main'
+
 
 Vue.use(Router)
 
@@ -25,9 +27,18 @@ export default new Router({
       component: Reg
     },
     {
-      path: '/index',
+      path: '/main',
      
-      component: Index
+      component: Main,
+      redirect:"/index",
+      children:[{
+         
+          path: '/index',
+         
+          component: Index
+        
+      }]
     }
+   
   ]
 })
