@@ -7,7 +7,7 @@ import axios from "axios"
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import'mint-ui/lib/style.css'
-
+import 'swiper/dist/css/swiper.min.css'
 
 import 'lib-flexible'
 Vue.config.productionTip = false

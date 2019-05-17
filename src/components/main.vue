@@ -3,24 +3,24 @@
         <div class="main_top"><router-view></router-view></div>
         
         <div class="main_bottom">
-             <div  class="main_bottom_common">
-                  <img src="../assets/main/icon_shouye_defult.png" />
+             <div  class="main_bottom_common" @click="changeColor($event)">
+                  <img :src='"../assets/main/icon_shouye_"+defult1+".png"' />
                   <span>首页</span>
              </div>
-             <div class="main_bottom_common">
-                  <img src="../assets/main/icon_aizanyinhang_defult.png" />
+             <div class="main_bottom_common"   @click="changeColor">
+                  <img :src='"../assets/main/icon_aizanyinhang_"+defult2+".png"' />
                   <span>爱攒银行</span>
              </div>
-             <div class="main_bottom_common">
-                  <img src="../assets/main/icon_lianmengzhongxin_defult.png" />
+             <div class="main_bottom_common teshu"  @click="changeColor">
+                  <img :src='"../assets/main/icon_lianmengzhongxin_"+defult3+".png"' />
                   
              </div >
-             <div class="main_bottom_common">
-                  <img src="../assets/main/icon_shouye_defult.png" />
+             <div class="main_bottom_common" @click="changeColor">
+                  <img :src='"../assets/main/icon_shouye_"+defult4+".png"' />
                   <span>攒圈</span>
              </div>
-             <div class="main_bottom_common">
-                  <img src="../assets/main/icon_wode_defult.png" />
+             <div class="main_bottom_common" @click="changeColor">
+                  <img :src='"../assets/main/icon_wode_"+defult5+".png"' />
                   <span>我的</span>
              </div>
         </div>
@@ -28,20 +28,36 @@
 </template>
 
 <script>
+
 export default {
-    
+    data(){
+         return{
+              defult1:'defult',
+              defult2:'defult',
+              defult3:'defult',
+              defult4:'defult',
+              defult5:'defult'
+         }
+    },
+    methods:{
+         changeColor(event){
+              console.log(event)
+          this.defult='selected'
+         }
+    }
 }
 </script>
 
 <style scoped>
+
      #main{
          display:flex;
          flex-direction: column;
-         height: 100%;
+         height: 100vh;
      }
      #main .main_top{
         overflow:auto;
-         flex-grow: 1;
+         flex: 1;
      }
      #main .main_bottom{
       flex-shrink: 0;
@@ -58,6 +74,11 @@ export default {
          flex-direction: column;
          justify-content: center;
          align-items: center
+     }
+     .main_bottom .teshu img{
+          width: 91px;
+	     height: 91px;
+          padding-bottom: 40px;
      }
 </style>
 
