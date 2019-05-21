@@ -30,4 +30,13 @@ img{
     display:block;
     border:none;
 }
+
+ .mt-progress-content .mt-progress-runway{
+     border-radius:10px;
+ } 
+ .mt-progress-content .mt-progress-progress{
+        background-color:#ffa32c;
+        border-radius: 10px;
+       
+    }
 </style>

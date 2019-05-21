@@ -52,10 +52,10 @@ function secKillList(data){
     })
 }
 //获取分类页商品
-function getSort(data){
+function getTotalInvite(data){
     return request({
-        method:'get',
-        url:'/Api?s=/api/Index/allCategory',
+        method:'post',
+        url:'api/signIncome/getTotalInvitation',
         data
     })
 }
@@ -69,11 +69,19 @@ function getSearch(data){
     })
 }
 
-//商品详情
-function goodsDetail(data){
+//申请提现
+function getCash(data){
     return request({
         method:'post',
-        url:'/Api?s=/api/Goods/Detail',
+        url:'api/userBillCashout/insert',
+        data
+    })
+}
+//签到收益页面
+function getEarn(data){
+    return request({
+        method:'post',
+        url:'api/signIncome/getSignIncomePage',
         data
     })
 }
@@ -82,5 +90,8 @@ export default{
     reg,
     getIndex,
     getCode,
-    secKillList
+    secKillList,
+    getTotalInvite,
+    getCash,
+    getEarn
 }

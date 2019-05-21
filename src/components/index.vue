@@ -103,7 +103,7 @@ export default {
       userName: "用户",
       dayTime: "早上好",
       arr: null,
-      selected: 2,
+      selected: 1,
       dateArr: null,
       dateList: null,
       timestatus:[]
@@ -183,7 +183,7 @@ export default {
     this.getDateTime();
     //请求轮播数据
     api.getIndex().then(function(res) {
-       console.log(res);
+       //console.log(res);
 
       if (res.data.code == 1) {
         _this.arr = res.data.data.banners;
@@ -218,7 +218,7 @@ export default {
       on: {
         slideChangeTransitionEnd: function() {
           // console.log(self.$refs.bgc)
-          console.log(this.activeIndex);//切换结束时，告诉我现在是第几个slide
+         // console.log(this.activeIndex);//切换结束时，告诉我现在是第几个slide
           switch (this.activeIndex) {
             case 5:
                _this.$refs.bgc.style.backgroundImage="url("+bg4+")";
@@ -265,9 +265,9 @@ export default {
               var nowTime = new Date().getTime();
               startTime = new Date(startTime).getTime();
               endTime = new Date(endTime).getTime();
-              console.log(nowTime, startTime, endTime);
+            //  console.log(nowTime, startTime, endTime);
               if (startTime > nowTime) {
-                console.log(1);
+               
                  return "1";
               } else if (startTime < nowTime && endTime > nowTime) {
                 
@@ -320,6 +320,7 @@ li {
   border-radius: 35px;
   text-indent: 1em;
   height: 100%;
+  border:none
 }
 .searchArea img {
   width: 45px;
